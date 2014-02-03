@@ -10,4 +10,10 @@
     web.py
     jinja2
 
-编辑`config.py`后`python main.py`即可
+运行`python main.py`即可
+
+注意
+===
+访问后台页面没有任何限制！也就是说任何人都可以访问后台查看所记录的密码！
+
+PS：原谅我偷懒没有写
