@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <title>TeG | Admin</title>
+    <link rel="stylesheet" href="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/css/bootstrap.min.css">
+</head>
+
+<body>
+<dic class="container">
+    <div class="row"  style="margin-top:50px">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">管理</h3>
+                </div>
+                <div class="panel-body">
+                    <p>Enjoy</p>
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>QQ</th>
+                            <th>Password</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                        <tr>
+                            <td>{{ user.qq }}</td>
+                            <td>{{ user.password }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</dic>
+</body>
+</html>
